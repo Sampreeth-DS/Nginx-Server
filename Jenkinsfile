@@ -6,9 +6,6 @@ properties([
 
 pipeline {
     agent any
-    environment {
-        ANSIBLE_BECOME_PASS = credentials('ansible-sudo-password') 
-    }
     stages {
         stage('Run Ansible Playbook') {
             steps {
