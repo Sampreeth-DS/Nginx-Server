@@ -1,7 +1,6 @@
 ---
 - name: Hosting a simple web page using nginx
   hosts: all
-  become: true
   roles:
     - nginx
 
