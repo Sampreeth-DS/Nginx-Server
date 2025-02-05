@@ -6,10 +6,13 @@ properties([
 
 pipeline {
     agent any
+    environment {
+        ANSIBLE_BECOME_PASS = credentials('sampreeth') 
+    }
     stages {
         stage('Run Ansible Playbook') {
             steps {
-                sh "ansible-playbook -i inventory nginx-playbook.yml --extra-vars 'message=\"${params.DATA}\"'"
+                sh "ansible-playbook -i inventory nginx-playbook.yml --extra-vars 'message=\"${params.DATA}\"' --extra-vars 'ansible_become_pass=${ANSIBLE_BECOME_PASS}'"
             }
         }
     }
