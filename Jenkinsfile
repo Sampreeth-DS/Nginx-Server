@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Run Ansible Playbook') {
             steps {
-                sh "ansible-playbook -i inventory nginx-playbook.yml --extra-vars 'message=\"${DATA}\"'"
+                sh "ansible-playbook -i inventory nginx-playbook.yml --extra-vars 'message=\"${params.DATA}\"'"
             }
         }
     }
