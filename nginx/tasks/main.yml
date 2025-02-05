@@ -1,0 +1,38 @@
+---
+# tasks file for nginx
+
+- name: Install nginx server
+  apt:
+    name: nginx
+    state: present
+
+- name: Start nginx server
+  shell: echo "Starting the nginx server"
+  notify:
+    - start nginx
+    - enable nginx
+
+- name: Flush handler to start and enable
+  meta: flush_handlers
+
+- name: Copy index.html page from jinja template
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+  notify:
+    - restart nginx
+
+- name: Flush handler to restart
+  meta: flush_handlers
+
+- name: check nginx status
+  shell: systemctl status nginx | grep "Active"
+  register: nginx_status
+
+- name: display nginx status
+  debug:
+    var: nginx_status.stdout
+
+- name: display ip
+  debug:
+    msg: "The IP address of the server hosting nginx is http://{{ ansible_default_ipv4.address }}"
